@@ -1,8 +1,13 @@
-import { LOGIN, LOGIN_FAIL, LOGIN_START, REGISTER, REGISTER_FAIL, REGISTER_START } from './../actions/userActions';
+import {
+    LOGIN, LOGIN_FAIL, LOGIN_START,
+    REGISTER, REGISTER_FAIL, REGISTER_START,
+    GET_USER_INFO, GET_USER_INFO_START, GET_USER_INFO_FAIL,
+    LOGOUT, LOGOUT_FAIL, LOGOUT_START
+} from './../actions/userActions';
 
 const INITIAL_STATE = {
     userId: null,
-    userName: '',
+    email: '',
     isLogedIn: false,
     isFetching: false
 }
@@ -14,7 +19,27 @@ export const user = (state = INITIAL_STATE, action) => {
         case LOGIN_FAIL:
             return { ...state, isFetching: false }
         case LOGIN:
-            return { ...state, userName: action.payload.userName, userId: action.payload.id, isLogedIn: true, isFetching: false }
+            if (action.payload.email && action.payload.id) {
+                return { ...state, email: action.payload.email, userId: action.payload.id, isLogedIn: true, isFetching: false }
+            }
+            return { ...state, isLogedIn: false, isFetching: false }
+
+        case LOGOUT_START:
+            return { ...state, isFetching: true }
+        case LOGOUT_FAIL:
+            return { ...state, isFetching: false }
+            
+        case LOGOUT:            
+            return { ...state, isLogedIn: false, isFetching: false, email: '', userId: null}
+        case GET_USER_INFO_START:
+            return { ...state, isFetching: true }
+        case GET_USER_INFO_FAIL:
+            return { ...state, isFetching: false }
+        case GET_USER_INFO:
+            if (action.payload.email && action.payload.id) {
+                return { ...state, email: action.payload.email, userId: action.payload.id, isLogedIn: true, isFetching: false }
+            }
+            return { ...state, isLogedIn: false, isFetching: false }
 
         case REGISTER_START:
             return { ...state, isFetching: true }

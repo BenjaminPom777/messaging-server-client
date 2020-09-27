@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function MessagesTableNew() {
+export default function SentMessagesTable() {
 
     const { messages: messagesState , user} = useSelector(state => state)
     const { messages } = messagesState;
@@ -30,20 +30,15 @@ export default function MessagesTableNew() {
         return { id, message, receiverId, senderId, subject };
     }
 
-    const dispatch = useDispatch();
-
-    const deleteHandler = (rowId) => {
-        dispatch(deleteMessage(rowId))
-    }
-
-
     if (messages) {
         messages.map(msg => {
-            rows.push(createData(msg))
+            if(msg.senderId===user.userId){
+                rows.push(createData(msg))
+            }
         })
     }
 
-    return (
+    return (        
         <TableContainer component={Paper}>
             <Table className={classes.table} size="small" aria-label="a dense table">
                 <TableHead>
@@ -52,12 +47,12 @@ export default function MessagesTableNew() {
                         {/* <TableCell align="right">Subject</TableCell> */}
                         <TableCell align="right">Subject&nbsp;(g)</TableCell>
                         {/* <TableCell align="right">Message&nbsp;(g)</TableCell> */}
-                        <TableCell align="right">Sender&nbsp;(g)</TableCell>
+                        <TableCell align="right">Reciever&nbsp;(g)</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {rows.map((row) => (
-                        <TableRow onClick={() => { deleteHandler(row.id) }} key={row.id}>
+                        <TableRow  key={row.id}>
                             <TableCell component="th" scope="row">
                                 {row.message}
                             </TableCell>

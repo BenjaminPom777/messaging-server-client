@@ -1,16 +1,16 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import './App.css';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { Provider,useSelector ,useDispatch} from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import reducers from './redux/reducers';
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import { Provider,useSelector } from 'react-redux';
-import createSagaMiddleware from 'redux-saga';
-
 import Compose from './components/compose/Compose';
 import Manage from './components/manage/Manage';
 import Nav from './components/nav/Nav';
 import Login from './components/login/Login';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {getUserInfo} from './redux/actions/userActions'
 import { mySaga } from './redux/sagas/Saga';
 
 
@@ -31,12 +31,16 @@ function App() {
   return (  
     <Provider store={store}>
       <AppBody />
-      </Provider>
-      
+      </Provider>      
   );
 }
 
 function AppBody(){
+  const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getUserInfo(user.userId))
+    }, [])   
+
   const {user}= useSelector(state=>state)
 
   return (
@@ -45,7 +49,7 @@ function AppBody(){
         <div className="App">
           {user.isLogedIn?
             <Fragment>           
-              <Nav name={user.userName}/>
+              <Nav />
                       
               <Switch>
                 <Route path="/" exact component={Home} />

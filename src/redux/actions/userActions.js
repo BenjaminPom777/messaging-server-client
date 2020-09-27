@@ -29,3 +29,24 @@ export const userLogin = (payload) => {
     payload: payload
   }
 }
+
+export const LOGOUT_START = "LOGOUT_START"
+export const LOGOUT_FAIL = "LOGOUT_FAIL"
+export const LOGOUT = "LOGOUT"
+export const userLogout = (payload) => {
+  return {
+    type: LOGOUT_START,
+    payload: payload
+  }
+}
+
+
+export const GET_USER_INFO_START = "GET_USER_INFO_START"
+export const GET_USER_INFO_FAIL = "GET_USER_INFO_FAIL"
+export const GET_USER_INFO = "GET_USER_INFO"
+export const getUserInfo = (payload) => {
+  return {
+    type: GET_USER_INFO_START,
+    payload: payload
+  }
+}
