@@ -1,12 +1,25 @@
 import React from 'react'
-import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useForm, Controller } from 'react-hook-form';
+import { useDispatch,useSelector } from 'react-redux';
 import { userRegister, userLogin } from './../../redux/actions/userActions';
 
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            margin: theme.spacing(1),
+            width: '25ch',
+        },
+    },
+}));
+
 export default function Login() {
+    const classes = useStyles();
     const dispatch = useDispatch();
 
-    const { register, handleSubmit, errors, reset } = useForm();
+    const { register, handleSubmit, errors, reset, control } = useForm();
 
     const submitLogin = (data) => {
         console.log('login: ', data)
@@ -20,22 +33,48 @@ export default function Login() {
         // reset()
     }
 
-
+    const {user:{error}}=useSelector(state=>state)
+    
+    
     return (
-        <form>
-            {errors.receiverId && <span style={{
+        <div>
+            {error && <span style={{
+                color:'red'
+            }}>{error}</span>}
+        <form className={classes.root} >            
+            <Controller
+                as={<TextField />}
+                name="userName"
+                control={control}
+                defaultValue=""
+                placeholder="name"
+                rules={{ required: true }}
+            // ref={register({required:true})}
+            />
+            {errors.userName && <span style={{
                 color: 'red'
-            }}>Required</span>}
-            <input type="text" placeholder="Username" name="userName" ref={register({ required: true })}></input><br />
-            {errors.subject && <span style={{
+            }}>Please enter your name</span>}
+            <br />
+                        
+            <Controller
+                as={TextField}
+                name="password"
+                control={control}
+                defaultValue=""
+                placeholder="password"
+                rules={{ required: true }}
+            // ref={register({required:true})}
+            />
+            {errors.password && <span style={{
                 color: 'red'
-            }}>Required</span>}
-            <input type="text" placeholder="Password" name="password" ref={register({ required: true })}></input><br />
-
+            }}>Please enter Password</span>}
+             <br />
             <button onClick={handleSubmit(submitLogin)}>Login</button>
+            <br />
             <button onClick={handleSubmit(submitRegister)}>Register</button>
-
+            <br />
             {/* <input type="submit" /> */}
         </form>
+        </div>
     )
 }

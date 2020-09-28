@@ -45,16 +45,17 @@ export default function MessagesTable() {
         })
     }
 
-    return (
-        <TableContainer component={Paper}>
+    return (    
+        <div>
+        <TableContainer >
             <Table className={classes.table} size="small" aria-label="a dense table">
                 <TableHead>
                     <TableRow>
                         <TableCell>Message</TableCell>
                         {/* <TableCell align="right">Subject</TableCell> */}
-                        <TableCell align="right">Subject&nbsp;(g)</TableCell>
+                        <TableCell align="right">Subject&nbsp;</TableCell>
                         {/* <TableCell align="right">Message&nbsp;(g)</TableCell> */}
-                        <TableCell align="right">Sender&nbsp;(g)</TableCell>
+                        <TableCell align="right">Sender&nbsp;</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -72,5 +73,6 @@ export default function MessagesTable() {
                 </TableBody>
             </Table>
         </TableContainer>
+        </div>
     );
 }

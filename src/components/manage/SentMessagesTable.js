@@ -38,6 +38,12 @@ export default function SentMessagesTable() {
         })
     }
 
+
+    const dispatch = useDispatch();
+    const deleteHandler = (rowId) => {
+        dispatch(deleteMessage(rowId))
+    }
+
     return (        
         <TableContainer component={Paper}>
             <Table className={classes.table} size="small" aria-label="a dense table">
@@ -45,14 +51,14 @@ export default function SentMessagesTable() {
                     <TableRow>
                         <TableCell>Message</TableCell>
                         {/* <TableCell align="right">Subject</TableCell> */}
-                        <TableCell align="right">Subject&nbsp;(g)</TableCell>
+                        <TableCell align="right">Subject&nbsp;</TableCell>
                         {/* <TableCell align="right">Message&nbsp;(g)</TableCell> */}
-                        <TableCell align="right">Reciever&nbsp;(g)</TableCell>
+                        <TableCell align="right">Reciever&nbsp;</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {rows.map((row) => (
-                        <TableRow  key={row.id}>
+                        <TableRow onClick={() => { deleteHandler(row.id) }} key={row.id}>
                             <TableCell component="th" scope="row">
                                 {row.message}
                             </TableCell>
